@@ -72,14 +72,23 @@ def write_results_to_file():
     top_articles = get_top_articles()
     top_authors = get_top_authors()
     days_with_errors = get_days_with_errors()
+    questions = [
+     "What are the most popular three articles of all time?",
+     "Who are the most popular authors of all time?",
+     "On which days did more than 1% of the requests lead to errors?"
+    ]
     results = [top_articles, top_authors, days_with_errors]
 
     with open("results.txt", "w") as f:
         i = 0
         for res_vals in results:
+            f.write("{}) {}\n\n".format(i + 1, questions[i]))
             for val in res_vals:
                 f.write("{} -- {}\n".format(val[0], val[1]))
             i += 1
+            if i < 3:
+                f.write("\n")
+
 
 create_articles_view()
 write_results_to_file()
