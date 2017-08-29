@@ -3,10 +3,23 @@
 import psycopg2
 
 
+DB_NAME = "news"
+
+
+def connect_to_database(dbname):
+    """Connects to database, returns connection"""
+    try:
+        db = psycopg2.connect(database=dbname)
+        c = db.cursor()
+        return db, c
+    except:
+        print("Unable to connect to database...")
+        sys.exit(1)
+
+
 def get_query_results(query_string):
     """Queries database using the provided string"""
-    db = psycopg2.connect(database="news")
-    c = db.cursor()
+    db, c = connect_to_database(DB_NAME)
     # connect and execute specified query
     c.execute(query_string)
     vals = c.fetchall()
@@ -17,8 +30,7 @@ def get_query_results(query_string):
 
 def create_articles_view():
     """Creates a view aggregating all article visits by title and author"""
-    db = psycopg2.connect(database="news")
-    c = db.cursor()
+    db, c = connect_to_database(DB_NAME)
     articles_query_string = (
      "CREATE OR REPLACE VIEW article_views AS "
      "SELECT articles.author, articles.title, count(log.path) AS visited "
