@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+
 import psycopg2
 
 
@@ -89,6 +91,6 @@ def write_results_to_file():
             if i < 3:
                 f.write("\n")
 
-
-create_articles_view()
-write_results_to_file()
+if __name__ == "main":
+    create_articles_view()
+    write_results_to_file()
